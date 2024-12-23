@@ -26,6 +26,11 @@ plt.xlabel("Статус семьи")
 plt.ylabel("Средняя итоговая оценка")
 plt.show()
 
+data['parent_status'].value_counts().plot.pie(autopct='%1.1f%%', colors=['skyblue', 'orange'], title='Распределение семейного статуса')
+plt.ylabel('')
+plt.show()
+
+
 # 3. Зависимость между профессией родителей и успеваемостью
 teacher_parent = data[(data['mother_job'] == 'teacher') | (data['father_job'] == 'teacher')]
 non_teacher_parent = data[(data['mother_job'] != 'teacher') & (data['father_job'] != 'teacher')]
@@ -60,3 +65,23 @@ plt.title("Средняя итоговая оценка в зависимост�
 plt.xlabel("Пол")
 plt.ylabel("Средняя итоговая оценка")
 plt.show()
+
+
+from math import pi
+
+# Подготовка данных для лепестковой диаграммы
+features = ['health', 'absences', 'final_grade']
+categories = data[features].mean()
+angles = [n / float(len(features)) * 2 * pi for n in range(len(features))]
+angles += angles[:1]
+
+# Лепестковая диаграмма
+fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
+ax.fill(angles, list(categories) + [categories[0]], color='blue', alpha=0.25)
+ax.plot(angles, list(categories) + [categories[0]], color='blue', linewidth=2)
+ax.set_yticks([0, 5, 10, 15])
+ax.set_xticks(angles[:-1])
+ax.set_xticklabels(features)
+plt.title("Лепестковая диаграмма характеристик студентов")
+plt.show()
+
