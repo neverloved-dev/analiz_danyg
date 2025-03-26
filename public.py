@@ -15,7 +15,7 @@ sns.barplot(x=travel_time_grade.index, y=travel_time_grade.values, palette="viri
 plt.title("Средняя итоговая оценка в зависимости от времени на дорогу")
 plt.xlabel("Время на дорогу до школы")
 plt.ylabel("Средняя итоговая оценка")
-plt.show()
+plt.show() 
 
 # 2. Зависимость между статусом семьи и успеваемостью
 parent_status_grade = data.groupby('parent_status')['final_grade'].mean()

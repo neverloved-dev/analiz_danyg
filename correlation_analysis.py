@@ -13,7 +13,7 @@ data = pd.read_csv('student_math_clean.csv')
 numeric_data = data.select_dtypes(include=['float64', 'int64'])
 
 # Построение корреляционной матрицы
-correlation_matrix = numeric_data.corr()
+correlation_matrix = numeric_data.drop(columns=['student_id']).corr()
 
 # Выбор корреляций с итоговой оценкой (final_grade)
 final_grade_correlation = correlation_matrix['final_grade'].sort_values(ascending=False)
@@ -24,6 +24,13 @@ print(final_grade_correlation)
 plt.figure(figsize=(10, 8))
 sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", fmt=".2f")
 plt.title("Корреляционная матрица для числовых переменных")
+plt.show()
+
+# Код для распределения итоговых оценок
+sns.histplot(data['final_grade'], kde=True, bins=15)
+plt.title("Распределение итоговых оценок")
+plt.xlabel("Оценка")
+plt.ylabel("Частота")
 plt.show()
 
 # 2. Регрессионный анализ
@@ -54,3 +61,12 @@ print("Коэффициент детерминации (R^2):", r2_score(y_test,
 coefficients = pd.DataFrame({'Feature': X.columns, 'Coefficient': model.coef_})
 print("Коэффициенты регрессии:")
 print(coefficients.sort_values(by='Coefficient', ascending=False))
+
+
+# Построение кластеров
+import seaborn as sns
+sns.scatterplot(x=data['absences'], y=data['final_grade'],  palette='viridis')
+plt.title("Кластеры K-средних")
+plt.xlabel("Количество пропусков")
+plt.ylabel("Итоговая оценка")
+plt.show()
